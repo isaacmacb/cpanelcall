@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Última Chamada</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Último Paciente Cadastrado</h1>
+    <% if (paciente) { %>
+        <div id="ultimo-paciente">
+            <p><strong>Nome:</strong> <%= paciente.nome_paciente %></p>
+            <p><strong>Data de Nascimento:</strong> <%= paciente.data_nascimento %></p>
+            <p><strong>Consultório:</strong> <%= paciente.consultorio %></p>
+            <p><strong>Médico:</strong> <%= paciente.medico %></p>
+            <p><strong>Especialidade:</strong> <%= paciente.especialidade %></p>
+            <p><strong>Senha:</strong> <%= paciente.senha %></p>
+            <p><strong>Prioridade:</strong> <%= paciente.prioridade ? 'Sim' : 'Não' %></p>
+        </div>
+    <% } else { %>
+        <p>Nenhum paciente encontrado.</p>
+    <% } %>
+</body>
+</html>

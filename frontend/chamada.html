@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Última Chamada</title>
+    <link rel="stylesheet" href="../frontend/public/css/styles.css">
+
+</head>
+<body>
+    <h1>Último Paciente Cadastrado</h1>
+    <div id="ultimo-paciente"></div>
+
+    <script>
+        async function carregarUltimoPaciente() {
+            const response = await fetch('http://localhost:3001/api/ultimo-paciente');
+            const paciente = await response.json();
+
+            const container = document.getElementById('ultimo-paciente');
+            if (paciente) {
+                container.innerHTML = `
+                    <p><strong>Nome:</strong> ${paciente.nome_paciente}</p>
+                    <p><strong>Data de Nascimento:</strong> ${paciente.data_nascimento}</p>
+                    <p><strong>Consultório:</strong> ${paciente.consultorio}</p>
+                    <p><strong>Médico:</strong> ${paciente.medico}</p>
+                    <p><strong>Especialidade:</strong> ${paciente.especialidade}</p>
+                    <p><strong>Senha:</strong> ${paciente.senha}</p>
+                    <p><strong>Prioridade:</strong> ${paciente.prioridade ? 'Sim' : 'Não'}</p>
+                `;
+            } else {
+                container.innerHTML = '<p>Nenhum paciente encontrado.</p>';
+            }
+        }
+
+        carregarUltimoPaciente();
+    </script>
+</body>
+</html>

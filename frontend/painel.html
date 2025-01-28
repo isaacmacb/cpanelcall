@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Pacientes</title>
+    <link rel="stylesheet" href="../frontend/public/css/styles.css">
+
+</head>
+<body>
+    <h1>Painel de Pacientes</h1>
+    <table border="1" id="tabela-pacientes">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Data de Nascimento</th>
+                <th>Consultório</th>
+                <th>Médico</th>
+                <th>Especialidade</th>
+                <th>Senha</th>
+                <th>Prioridade</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        async function carregarPacientes() {
+            const response = await fetch('http://localhost:3001/api/pacientes');
+            const pacientes = await response.json();
+
+            const tbody = document.querySelector('#tabela-pacientes tbody');
+            tbody.innerHTML = '';
+
+            pacientes.forEach(paciente => {
+                const tr = document.createElement('tr');
+                tr.style.backgroundColor = paciente.prioridade ? '#FFD1D1' : '#D1FFD1'; // Destaque visual
+                tr.innerHTML = `
+                    <td>${paciente.nome_paciente}</td>
+                    <td>${paciente.data_nascimento}</td>
+                    <td>${paciente.consultorio}</td>
+                    <td>${paciente.medico}</td>
+                    <td>${paciente.especialidade}</td>
+                    <td>${paciente.senha}</td>
+                    <td>${paciente.prioridade ? 'Sim' : 'Não'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        carregarPacientes();
+    </script>
+</body>
+</html>
