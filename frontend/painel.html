@@ -26,29 +26,42 @@
 
     <script>
         async function carregarPacientes() {
-            const response = await fetch('http://localhost:3001/api/pacientes');
-            const pacientes = await response.json();
-
-            const tbody = document.querySelector('#tabela-pacientes tbody');
-            tbody.innerHTML = '';
-
-            pacientes.forEach(paciente => {
-                const tr = document.createElement('tr');
-                tr.style.backgroundColor = paciente.prioridade ? '#FFD1D1' : '#D1FFD1'; // Destaque visual
-                tr.innerHTML = `
-                    <td>${paciente.nome_paciente}</td>
-                    <td>${paciente.data_nascimento}</td>
-                    <td>${paciente.consultorio}</td>
-                    <td>${paciente.medico}</td>
-                    <td>${paciente.especialidade}</td>
-                    <td>${paciente.senha}</td>
-                    <td>${paciente.prioridade ? 'Sim' : 'Não'}</td>
-                `;
-                tbody.appendChild(tr);
-            });
+    try {
+        const response = await fetch('http://localhost:3001/api/pacientes');
+        
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
         }
 
-        carregarPacientes();
+        const pacientes = await response.json();
+
+        console.log("Pacientes recebidos no front-end:", pacientes); // 🔍 Debug
+
+        const tbody = document.querySelector('#tabela-pacientes tbody');
+        tbody.innerHTML = '';
+
+        pacientes.forEach(paciente => {
+            const tr = document.createElement('tr');
+            tr.style.backgroundColor = paciente.prioridade ? '#FFD1D1' : '#D1FFD1'; // Destaque visual
+            tr.innerHTML = `
+                <td>${paciente.nome_paciente}</td>
+                <td>${paciente.data_nascimento}</td>
+                <td>${paciente.consultorio}</td>
+                <td>${paciente.medico}</td>
+                <td>${paciente.especialidade}</td>
+                <td>${paciente.senha}</td>
+                <td>${paciente.prioridade ? 'Sim' : 'Não'}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar pacientes:", error);
+        document.querySelector('#tabela-pacientes tbody').innerHTML = '<tr><td colspan="7">Erro ao buscar pacientes.</td></tr>';
+    }
+}
+
+carregarPacientes();
+
     </script>
 </body>
 </html>

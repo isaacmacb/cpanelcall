@@ -36,6 +36,9 @@
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
+    // 🚨 Correção: Garantir que a data seja sempre "YYYY-MM-DD"
+    data.data_nascimento = new Date(data.data_nascimento).toISOString().split('T')[0];
+
     const response = await fetch('http://localhost:3001/api/cadastro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,6 +53,7 @@
         alert('Erro ao cadastrar paciente.');
     }
 });
+
 
     </script>
 </body>

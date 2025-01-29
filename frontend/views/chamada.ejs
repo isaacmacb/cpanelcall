@@ -11,8 +11,9 @@
     <% if (paciente) { %>
         <div id="ultimo-paciente">
             <p><strong>Nome:</strong> <%= paciente.nome_paciente %></p>
-            <p><strong>Data de Nascimento:</strong> <%= paciente.data_nascimento %></p>
-            <p><strong>Consultório:</strong> <%= paciente.consultorio %></p>
+            <p><strong>Data de Nascimento:</strong> 
+                <%= new Date(paciente.data_nascimento).toLocaleDateString('en-CA') %>
+            </p>
             <p><strong>Médico:</strong> <%= paciente.medico %></p>
             <p><strong>Especialidade:</strong> <%= paciente.especialidade %></p>
             <p><strong>Senha:</strong> <%= paciente.senha %></p>
