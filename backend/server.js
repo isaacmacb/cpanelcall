@@ -57,23 +57,22 @@ app.get('/painel', async (req, res) => {
 
 app.get('/chamada', async (req, res) => {
     try {
-        // Busca o último paciente do banco de dados
-        const { Pool } = require('pg');
-        const pool = new Pool({
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-            port: process.env.DB_PORT,
-        });
-
         const { rows } = await pool.query('SELECT * FROM pacientes ORDER BY id DESC LIMIT 1');
-        res.render('chamada', { paciente: rows[0] || null }); // Passa o último paciente para chamada.ejs
+        
+        if (rows.length > 0) {
+            // Formatar a data para YYYY-MM-DD
+            rows[0].data_nascimento = new Date(rows[0].data_nascimento)
+                .toLocaleDateString('en-CA'); // 'en-CA' garante o formato YYYY-MM-DD
+        }
+
+        res.render('chamada', { paciente: rows[0] || null });
     } catch (err) {
         console.error(err);
         res.status(500).send('Erro ao carregar o último paciente.');
     }
 });
+
+
 
 // Inicializa o servidor
 app.listen(PORT, () => {
